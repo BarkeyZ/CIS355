@@ -1,7 +1,6 @@
 <?php
-echo "<a href='/Intro/helloworld.php'>Hello World</a></br>";
-echo "<a href='/Intro/showarrays.php'>Show Arrays</a></br>";
-echo "<a href='/Intro/banas.php'>Banas</a>";
-echo "</br>";
-echo "<a href='/Database/form_hub.php'>Database Test</a>"
+echo "<a href='helloworld.php'>Hello World</a></br>";
+echo "<a href='showarrays.php'>Show Arrays</a></br>";
+echo "<a href='banas.php'>Banas</a><br><br>";
+echo "<a href='/Database/events_people.php'>Database Test</a>"
 ?>
