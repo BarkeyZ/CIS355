@@ -13,7 +13,7 @@
 <?php
 require '../../password.php';
 
-$sql = "SELECT Assignments.ID, People.FirstName, People.LastName, Events.Name AS 'Event' FROM People, Events, Assignments WHERE Assignments.PersonID = People.ID AND Assignments.EventID = Events.ID;";
+$sql = "SELECT DISTINCT Assignments.ID, People.FirstName, People.LastName, Events.Name AS 'Event' FROM People, Events, Assignments WHERE Assignments.PersonID = People.ID AND Assignments.EventID = Events.ID;";
 foreach ($pdo->query($sql) as $row){
     $str = "";
     $str .= $row['FirstName'] . ' ' . $row['LastName'] . ' assigned to ' . $row['Event'];

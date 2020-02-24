@@ -26,7 +26,9 @@ if(empty($_GET)){
 }
 else{
     $sql = "DELETE FROM People WHERE ID = " . $_GET['delete_id'] . " LIMIT 1;";
+    $pdo->query($sql);
     
+    $sql = "DELETE FROM Assignments WHERE PersonID = " . $_GET['delete_id'] . " LIMIT 1;";
     $pdo->query($sql);
     
     echo "<h3>It has been deleted<?h3><br><br><a href='form_hub.php'>Return</a>";

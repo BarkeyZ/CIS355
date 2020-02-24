@@ -26,7 +26,9 @@ if(empty($_GET)){
 }
 else{
     $sql = "DELETE FROM Events WHERE ID = " . $_GET['delete_id'] . " LIMIT 1;";
+    $pdo->query($sql);
     
+    $sql = "DELETE FROM Assignments WHERE EventID = " . $_GET['delete_id'] . " LIMIT 1;";
     $pdo->query($sql);
     
     echo "<h3>It has been deleted<?h3><br><br><a href='event_hub.php'>Return</a>";
