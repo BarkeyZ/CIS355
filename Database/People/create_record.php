@@ -1,7 +1,27 @@
 <?php
-//Connects to Database
-require '../../password.php';
+session_start();
+if(!isset($_SESSION["person_id"])){ // if "user" not set,
+	session_destroy();
+	header('Location: ../login.php');   // go to login page
+	exit;
+}
+$sessionID = $_SESSION['person_id'];
+$sessionTitle = $_SESSION['person_title'];
 
+require '../../password.php';
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+			<link   href="../css/bootstrap.min.css" rel="stylesheet">
+				<script src="../js/bootstrap.min.js"></script>
+			</head>
+
+			<body>
+				<div class='container'>
+					<?php
 
 //Grab info from form
 $f = $_POST['first'];
@@ -16,11 +36,12 @@ $sql = "INSERT INTO People (FirstName, LastName, PhoneNumber) VALUES ('$f', '$l'
 //Execute Query
 $pdo->query($sql);
 
-echo "<p>Your info has been added</p><br>";
-echo "<a href='form_hub.php'>Back to Form</a>";
+echo "<h3>Your info has been added</h3><br>";
+echo "<a class ='btn' href='form_hub.php'>Back to Form</a>";
 }
 else{
-    echo "<p>Field was left empty, please return</p><br>";
-    echo "<a href='create_form.php'>Back to Form</a>";
+    echo "<h3>Field was left empty, please return</h3><br>";
+    echo "<a class ='btn' href='create_form.php'>Back to Form</a>";
 }
 ?>
+				</div></body></html>

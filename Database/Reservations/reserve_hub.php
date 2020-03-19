@@ -1,3 +1,15 @@
+<?php
+session_start();
+if(!isset($_SESSION["person_id"])){ // if "user" not set,
+	session_destroy();
+	header('Location: ../login.php');   // go to login page
+	exit;
+}
+
+$sessionID = $_SESSION['person_id'];
+$sessionTitle = $_SESSION['person_title'];
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -17,12 +29,12 @@
     <input type='submit' value='Create'>
 </form>
 
-<form action='../../index.php'>
+<form action='../flights_app.php'>
     <input type='submit' value='Home'>
 </form>
 
 <div class='row'>
-<h1>All Assignments</h1>
+<h1>All Reservations</h1>
 </div>
 
 <div class='row'>
@@ -30,8 +42,8 @@
 									<thead>
 										<tr>
 											<th>Person</th>
-											<th>Event Name</th>
-											<th>Day of the week</th>
+											<th>Flight</th>
+											<th>Time</th>
 											<th>Action</th>
 										</tr>
 									</thead>
@@ -39,22 +51,24 @@
 <?php
 require '../../password.php';
 
-$sql = "SELECT DISTINCT Assignments.ID, People.FirstName, People.LastName, Events.Day, Events.Name AS 'Event' FROM People, Events, Assignments WHERE Assignments.PersonID = People.ID AND Assignments.EventID = Events.ID;";
+$sql = "SELECT DISTINCT FirstName, LastName, Start, End, Time, People.ID FROM People, Flights, Reservations WHERE Reservations.PersonID = People.ID AND Reservations.FlightID = Flights.ID;";
 foreach ($pdo->query($sql) as $row){
     $str = "";
 	$str .= "<tr>";
     $str .= '<td>' . $row['FirstName'] . ' ' . $row['LastName'] . '</td>';
-	$str .= '<td>' . $row['Event'] . '</td>';
-	$str .= '<td>' . $row['Day'] . '</td>';
+	$str .= '<td>' . $row['Start'] . " to " . $row['End'] . '</td>';
+	$str .= '<td>' . $row['Time'] . '</td>';
 	$str .= '<td><table>';
     $str .= "<td><form method='post' action='read_record.php'>";
-    $str .= "<input type='hidden' name ='assignmentID' value='" . $row['ID'] . "'>";
+    $str .= "<input type='hidden' name ='reservationID' value='" . $row['ID'] . "'>";
     $str .= "<input type='Submit' value='Read'>";
     $str .= '</form></td>';
-    $str .= "<td><form method='post' action='delete_record.php'>";
-    $str .= "<input type='hidden' name ='assignmentID' value='" . $row['ID'] . "'>";
-    $str .= "<input type='Submit' value='Delete'>";
-    $str .= '</form></td>';
+    if($sessionTitle == 1 || $sessionID == $row['ID']){
+        $str .= "<td><form method='post' action='delete_record.php'>";
+        $str .= "<input type='hidden' name ='reservationID' value='" . $row['ID'] . "'>";
+        $str .= "<input type='Submit' value='Delete'>";
+        $str .= '</form></td>';
+    }
 	$str .= '</td>';
 	$str .= '</table>';
 	$str .= '</tr>';

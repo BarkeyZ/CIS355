@@ -20,43 +20,43 @@ require '../../password.php';
 
 			<body>
 				<div class='container'>
-					<div class='row'>
-						<h2>Selected Person:</h2>
-					</div>
-					<div class='row'>
-						<?php
-$theID = $_POST['personID'];
+				
+<div class='row'>
+<h2>Selected Flight:</h2>
+</div>
 
-$sql = "SELECT * FROM People WHERE ID = " . $theID;
+<div class='row'>
+<?php
+$theID = $_POST['flightID'];
+
+$sql = "SELECT * FROM Flights WHERE ID = " . $theID;
 foreach($pdo->query($sql) as $row){
     $str = "";
-	$sql .= "<div class='row'>";
-    $str .= ' (' . $row['ID'] . ') ' . $row['FirstName'] . ' ' . $row['LastName'] . " #" . $row['PhoneNumber'];
-    $str .= '</div>';
+	$str .= "<div class='row'>";
+    $str .= ' (' . $row['ID'] . ') ' . $row['Start'] . ' to ' . $row['End'] . " on " . $row['Time'];
+    $str .= '</div><br>';
     echo $str;
 }
-echo "<div class='row'>";
-echo "<br><h3>This person has the following assignments:</h3><br>";
-echo "</div>";
 ?>
-
-						<div class="row">
+<div class='row'>
+<h3>This Flight has the following reservations:</h3>
+</div>
+<div class="row">
 							<table class="table table-striped table-bordered">
 								<thead>
 									<tr>
-										<th>Assignment ID</th>
+										<th>Reservation ID</th>
 										<th>Description</th>
 									</tr>
 								</thead>
 								<tbody>
-
-									<?php
-$sql = "SELECT * FROM People, Events, Assignments WHERE Assignments.PersonID = People.ID AND Assignments.EventID = Events.ID AND People.ID = " . $theID . ";";
+<?php
+$sql = "SELECT * FROM People, Flights, Reservations WHERE Reservations.PersonID = People.ID AND Reservations.FlightID = Flights.ID AND Flights.ID = " . $theID . ";";
 foreach($pdo->query($sql) as $row){
     $str = "";
 	$str .= "<tr>";
     $str .= "<td>(" . $row['ID'] . ")</td>";
-    $str .= "<td>" . $row['FirstName'] . ' ' . $row['LastName'] . ' assigned to ' . $row['Name'] . ' on ' . $row['Day'] . '</td>';
+    $str .= "<td>" . $row['FirstName'] . ' ' . $row['LastName'] . ' reserved a spot on the flight from ' . $row['Start'] . ' to ' . $row['End'] . " on " . $row['Time'] . "</td>";
     $str .= '</tr>';
     echo $str;
 }
@@ -64,10 +64,7 @@ foreach($pdo->query($sql) as $row){
 								</tbody>
 							</table>
 						</div>
-						<br><br><a href='form_hub.php'>Return</a>
+<br><br><a href='flight_hub.php'>Return</a>
 							</div>
 						</body>
 					</html>
-
-
-					

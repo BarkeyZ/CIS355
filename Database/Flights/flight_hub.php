@@ -20,9 +20,11 @@ require '../../password.php';
 
 			<body>
 				<div class="container">
-					<div class="row">
-						<h2>To edit or view the people, click the links below</h2>
+					<div class="row">			
+						<h2>To edit or view the Flights, click the links below</h2>
 					</div>
+
+
 					<form action='create_form.php'>
 						<input type='submit' value='Create'>
 						</form>
@@ -30,38 +32,44 @@ require '../../password.php';
 						<form action='../flights_app.php'>
 							<input type='submit' value='Home'>
 							</form>
+
 							<div class="row">
-								<h1>People List</h1>
+								<h1>Flight List</h1>
 							</div>
-							<div class="row">
+							<div class='row'>
 								<table class="table table-striped table-bordered">
 									<thead>
 										<tr>
-											<th>First Name</th>
-											<th>Last Name</th>
-											<th>Action</th>
+											<th>Flight Start</th>
+											<th>Flight End</th>
+											<th>Time</th>
+											<th>Price</th>
+											<th>Capacity</th>
 										</tr>
 									</thead>
 									<tbody>
-										<?php
+<?php
 
-$sql = "SELECT * FROM People";
+$sql = "SELECT * FROM Flights";
 foreach ($pdo->query($sql) as $row){
     $str = "";
 	$str .= "<tr>";
-    $str .= "<td>" . $row['FirstName'] . '</td>';
-	$str .= '<td>' . $row['LastName'] . '</td>';
+    $str .= "<td>" . $row['Start'] . '</td>';
+	$str .= '<td>' . $row['End'] . '</td>';
+	$str .= '<td>' . $row['Time'] . '</td>';
+	$str .= '<td>' . $row['Price'] . '</td>';
+	$str .= '<td>' . $row['Capacity'] . '</td>';
 	$str .= '<td><table>';
     $str .= "<td><form method='post' action='read_record.php'>";
-    $str .= "<input type='hidden' name ='personID' value='" . $row['ID'] . "'>";
+    $str .= "<input type='hidden' name ='flightID' value='" . $row['ID'] . "'>";
     $str .= "<input type='Submit' value='Read'>";
     $str .=  '</form></td>';
     $str .= "<td><form method='post' action='delete_record.php'>";
-    $str .= "<input type='hidden' name ='personID' value='" . $row['ID'] . "'>";
+    $str .= "<input type='hidden' name ='flightID' value='" . $row['ID'] . "'>";
     $str .= "<input type='Submit' value='Delete'>";
     $str .=  '</form></td>';
     $str .= "<td><form method='get' action='update_form.php'>";
-    $str .= "<input type='hidden' name ='personID' value='" . $row['ID'] . "'>";
+    $str .= "<input type='hidden' name ='flightID' value='" . $row['ID'] . "'>";
     $str .= "<input type='Submit' value='Update'>";
     $str .= '</form></td>';
 	$str .= '</td>';
